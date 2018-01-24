@@ -39,7 +39,21 @@ const ok_error = (done, code) => error => {
 }
 
 /**
+ *  Standard connection
+ */
+const initialize = _.promise.make((self, done) => {
+    _.promise.make(self)
+        .then(_.promise.add("mysqld", require("./data/mysql.json")))
+        .then(mysql.initialize)
+        .then(_.promise.done(done, self, "mysql"))
+        .catch(done)
+})
+
+
+/**
  *  API
  */
 exports.auto_fail = auto_fail;
 exports.ok_error = ok_error;
+
+exports.initialize = initialize;
